@@ -47,6 +47,8 @@ class Database(object):
         return df
 
     # TODO: Update one job adverts
+    def update_with_id(self, _id, field):
+        self.collection.update_one({"_id": _id}, {'$set': field}, upsert=False)
 
     # TODO: Delete job adverts for particular key
 

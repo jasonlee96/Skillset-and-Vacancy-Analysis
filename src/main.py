@@ -45,7 +45,7 @@ def main():
     # TODO: try to use pandas write into txt to check the performance
     print("time for writing into txt file: ", (time.time() - start))
 
-    print(df['description'])
+    print(df['new_description'])
 
 
 if __name__ == "__main__":
