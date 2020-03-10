@@ -1,6 +1,6 @@
 from database import Database
 import nltk
-from nltk.tokenize import MWETokenizer
+from nltk.tokenize import MWETokenizer, treebank
 from nltk.corpus import stopwords, wordnet
 from nltk.stem import WordNetLemmatizer
 
@@ -18,11 +18,14 @@ stopwords_list = stopwords.words("english")
 stopwords_list.extend(symbols)
 
 # Multi word expression that used to merge the separated token
-mwe_list = [("c", "#"), (".", "net")]
+mwe_list = [("c", "#"), (".", "net"), ("asp", ".", "net")]
 
 # TODO: Remove line below after completed
 # Word that being removed from tokens
 removed_token = []
+
+# detokenizer to detokenize the tokens list back to a string format
+detokenizer = treebank.TreebankWordDetokenizer()
 
 
 # function check_unicode
@@ -100,6 +103,7 @@ def main():
                 removed_token.append(word)
                 # print("unicode detected", word)
                 continue
+            # TODO: Remove digit tokens using re
             # Try to split the joined tokens such as ("Design/Test") into two different token
             if "/" in word and not word.startswith("/") and not word.endswith("/"):
                 # print("circuited", word.split("/"), sep=" ")
@@ -110,6 +114,7 @@ def main():
             process_word = process_single(word)
             if process_word is not None:
                 prepared_token.append(process_word)
+        prepared_token = " ".join(prepared_token)
         db.update_with_id(row['_id'], {"prepared_description": prepared_token})
     print("Number of removed token: ", len(removed_token))
     print(removed_token)

@@ -7,6 +7,7 @@
       <w>retokenize</w>
       <w>retokenizer</w>
       <w>stopword</w>
+      <w>vectorizer</w>
       <w>wordnet</w>
     </words>
   </dictionary>
