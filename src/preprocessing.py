@@ -1,11 +1,10 @@
-from database import Database
 import nltk
 from nltk.tokenize import MWETokenizer, treebank
 from nltk.corpus import stopwords, wordnet
 from nltk.stem import WordNetLemmatizer
+import re
 
-# Initialize Database object
-db = Database()
+# !!! URGENT: TODO: Modify it into class module and import to mining.py for one time tokenize
 
 # Lemmatizer initialization
 lemmatizer = WordNetLemmatizer()
@@ -13,10 +12,12 @@ lemmatizer = WordNetLemmatizer()
 # list of symbols have to remove from the tokens list
 symbols = ['*', '(', ')', ':', '-', ',', '.', '!', '?', '_', '/', ';', "'", "[", "]", '{', '}', '+', '&', '%', '#', '@',
            "<", '>', '|']
+
+ignore_words = ["e.g", "e.g."]
 # stopwords list initialization
 stopwords_list = stopwords.words("english")
 stopwords_list.extend(symbols)
-
+stopwords_list.extend(ignore_words)
 # Multi word expression that used to merge the separated token
 mwe_list = [("c", "#"), (".", "net"), ("asp", ".", "net")]
 
@@ -84,41 +85,31 @@ def process_single(word) -> str:
     removed_token.append(word)
 
 
-def main():
-    db.open()
-    # DataFrame Sample
-    #       _id     title               href        description     key
-    # 0    ...      Software Engineer   URL         <descriptions>  software engineer
-    df = db.find({"key": "software engineer"})
-    # tokenizer = RegexpTokenizer(r'\w+')
+def tokenize(text):
     # Retokenize by merge those keywords from different tokens such as ('c', '#') -> ('c#')
     retokenizer = MWETokenizer(mwes=mwe_list, separator='')
-
-    for index, row in df.iterrows():
-        tokens = retokenizer.tokenize(nltk.word_tokenize(row['description'].lower()))
-        prepared_token = []
-        for word in tokens:
-            if not check_unicode(word):
-                # TODO: Remove line below after completed
-                removed_token.append(word)
-                # print("unicode detected", word)
+    tokens = retokenizer.tokenize(nltk.word_tokenize(text.lower()))
+    prepared_token = []
+    for word in tokens:
+        if not check_unicode(word):
+            # TODO: Remove line below after completed
+            removed_token.append(word)
+            # print("unicode detected", word)
+            continue
+        if re.match(r'(\W+\d+)|(\d)', word):
+            continue
+        # Try to split the joined tokens such as ("Design/Test") into two different token
+        if "/" in word:
+            # print("circuited", word.split("/"), sep=" ")
+            if ".com" in word or "http" in word:
                 continue
-            # TODO: Remove digit tokens using re
-            # Try to split the joined tokens such as ("Design/Test") into two different token
-            if "/" in word and not word.startswith("/") and not word.endswith("/"):
-                # print("circuited", word.split("/"), sep=" ")
-                if "www" in word:
-                    continue
-                prepared_token.extend(process_multiple(word.split("/")))
-                continue
-            process_word = process_single(word)
-            if process_word is not None:
-                prepared_token.append(process_word)
-        prepared_token = " ".join(prepared_token)
-        db.update_with_id(row['_id'], {"prepared_description": prepared_token})
-    print("Number of removed token: ", len(removed_token))
-    print(removed_token)
+            prepared_token.extend(process_multiple(word.split("/")))
+            continue
+        process_word = process_single(word)
+        if process_word is not None:
+            prepared_token.append(process_word)
 
+    return prepared_token
 
 if __name__ == "__main__":
-    main()
+    tokenize("a")
