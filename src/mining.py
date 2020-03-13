@@ -18,7 +18,7 @@ def display_matrix(encoding_matrix, topic):
 
 
 def main():
-    df = db.find({"key": "software engineer"})
+    df = db.find()
 
     vectorizer = TfidfVectorizer(tokenizer=tokenize, use_idf=True, max_df=0.40, min_df=10)
     vectors = vectorizer.fit_transform(df.description)

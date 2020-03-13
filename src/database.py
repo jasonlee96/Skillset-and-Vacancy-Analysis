@@ -35,15 +35,14 @@ class Database(object):
         self.collection.insert_many(arr)
 
     # Find all job adverts for particular key
-    def find(self, key, show_id=True):
+    def find(self, show_id=True):
         field = None
         if not show_id:
-            print("hey")
             field = {"_id": 0}
         if field is None:
-            df = pd.DataFrame(list(self.collection.find(key)))
+            df = pd.DataFrame(list(self.collection.find({})))
         else:
-            df = pd.DataFrame(list(self.collection.find(key, field)))
+            df = pd.DataFrame(list(self.collection.find({}, field)))
         return df
 
     # TODO: Update one job adverts

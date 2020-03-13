@@ -2,9 +2,9 @@ from extraction import Extraction
 import time
 from database import Database
 
-ext = Extraction('https://www.jobstreet.com.my/en/job-search/job-vacancy.php?key=software+engineer',
-                     {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.139 Safari/537.36'}
-                     , key='software engineer')
+ext = Extraction('https://www.jobstreet.com.my/en/job-search/job-vacancy.php',
+                 {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.139 Safari/537.36'},
+                 specialization='191,192,193')
 
 
 def extract():
@@ -32,20 +32,21 @@ def main():
     db.open()
     print("time used for db initialization: ", (time.time() - start))
     start = time.time()
-    # db.insert_many(job_adverts)
+    # db.insert_many(data)
     print("time used for insertion: ", (time.time() - start))
 
     start = time.time()
     # cast the mongo data into pandas DataFrame
-    df = db.find({"key": "software engineer"}, show_id=False)
+    df = db.find(show_id=False)
     print("time used for read: ", (time.time() - start))
-
-    # Store into txt file and test the read speed and write speed for both (https://www.youtube.com/watch?v=irnj19jz8uI)
-    start = time.time()
-    # TODO: try to use pandas write into txt to check the performance
-    print("time for writing into txt file: ", (time.time() - start))
-
-    print(df['new_description'])
+    print(df['description'])
+    #
+    # # Store into txt file and test the read speed and write speed for both (https://www.youtube.com/watch?v=irnj19jz8uI)
+    # start = time.time()
+    # # TODO: try to use pandas write into txt to check the performance
+    # print("time for writing into txt file: ", (time.time() - start))
+    #
+    # print(df['new_description'])
 
 
 if __name__ == "__main__":
