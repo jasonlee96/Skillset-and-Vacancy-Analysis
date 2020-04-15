@@ -25,17 +25,19 @@ class Database(object):
         return Database.__instance
 
     # open the collection of the database
-    def open(self):
+    def open(self, collection=None):
         self.cluster = MongoClient(self.__connection_string)
         self.db = self.cluster[self.__db]
         self.collection = self.db[self.__collection]
+        if collection is not None:
+            self.collection = self.db[collection]
 
     # Insert a list of job adverts into the database
     def insert_many(self, arr):
         self.collection.insert_many(arr)
 
     # Find all job adverts for particular key
-    def find(self, show_id=True):
+    def find(self, show_id=True, key=None):
         field = None
         if not show_id:
             field = {"_id": 0}
@@ -43,6 +45,13 @@ class Database(object):
             df = pd.DataFrame(list(self.collection.find({})))
         else:
             df = pd.DataFrame(list(self.collection.find({}, field)))
+        return df
+
+    def insert_test(self, arr):
+        self.db["test"].insert_many(arr)
+
+    def find_query(self, key):
+        df = pd.DataFrame(list(self.collection.find({'key': key})))
         return df
 
     # TODO: Update one job adverts

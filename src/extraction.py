@@ -34,7 +34,7 @@ class Extraction:
 
     def reset_session(self):
         self.req = requests.Session()
-        print("session reset ")
+        # print("session reset ")
 
     def set_key(self, key):
         self.payload['key'] = key
@@ -48,16 +48,26 @@ class Extraction:
     def set_location(self, location):
         self.payload['location'] = location
 
+    def get_one_job(self):
+        self.set_page(1)
+        soup = self.get_html()
+        link = soup.find('a', {'class': 'position-title-link'})
+        job = Job(title=link.get('data-job-title'), href=link.get('href'))
+        self.get_job_description(job, self.header)
+        return job
+
     def get_html(self):
         html = self.req.get(self.url, headers=self.header, params=self.payload)
         soup = BeautifulSoup(html.text, 'html.parser')
         return soup
 
-    def get_job_titles(self):
+    def get_job_titles(self, max_page=None):
         run = True
         pg = 1
         while run:
-            print("current page: ", pg)
+            if max_page is not None and max_page < pg:
+                break
+            # print("current page: ", pg)
             self.set_page(pg)
             soup = self.get_html()
             while is_captcha(soup):
@@ -72,7 +82,7 @@ class Extraction:
                     continue
                 if "job-classified-ads.php" in link.get('href'):
                     continue
-                job = Job(title=link.get('data-job-title'), href=link.get('href'))
+                job = Job(title=link.get('data-job-title'), href=link.get('href'), key=self.payload['key'])
                 self.get_job_description(job, self.header)
                 self.list_data.append(job)
             pg += 1

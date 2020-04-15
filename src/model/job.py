@@ -1,9 +1,10 @@
 # Job Data Model
 class Job:
-    def __init__(self, title, href):
+    def __init__(self, title, href, key):
         self.title = title
         self.href = href
         self.description = None
+        self.key = key
 
     def add_description(self, desc):
         self.description = desc
@@ -14,4 +15,4 @@ class Job:
 
     # Convert to dict format that helps in inserting into database
     def to_dict(self):
-        return {"title": self.title, "href": self.href, "description": self.description}
+        return {"title": self.title, "href": self.href, "description": self.description, "key": self.key}

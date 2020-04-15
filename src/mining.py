@@ -20,11 +20,12 @@ def display_matrix(encoding_matrix, topic):
 def main():
     df = db.find()
 
-    vectorizer = TfidfVectorizer(tokenizer=tokenize, use_idf=True, max_df=0.40, min_df=10)
+   # vectorizer = TfidfVectorizer(tokenizer=tokenize, use_idf=True, max_df=0.40, min_df=10)
+    vectorizer = TfidfVectorizer(tokenizer=tokenize, use_idf=True)
     vectors = vectorizer.fit_transform(df.description)
     vectors_df = pd.DataFrame(vectors.todense(), columns=vectorizer.get_feature_names())
     print(vectors_df)
-    #print(vectors_df.head(10))
+    print(vectors_df.head(10))
     svd = TruncatedSVD(n_components=n_comp)
     lsa = svd.fit_transform(vectors)
 
