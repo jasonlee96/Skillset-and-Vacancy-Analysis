@@ -1,0 +1,30 @@
+.shadow{
+	box-shadow: rgba(0,0,0,0.8) 0 0 20px;
+}
+
+html{
+  scroll-behavior: smooth;
+}
+body{
+  opacity: 1;
+  font-family: 'Baloo Paaji 2', cursive;
+  animation: fade 2s ease-out
+}
+
+#test-btn{
+  z-index: 100;
+}
+
+.App {
+  text-align: center;
+}
+
+
+@keyframes fade{
+  from{
+    opacity: 0;
+  }
+  to{
+    opacity: 1;
+  }
+}

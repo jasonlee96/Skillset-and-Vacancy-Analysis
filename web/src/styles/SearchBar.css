@@ -1,0 +1,158 @@
+.bar{
+    width: 600px;
+    background-color: #FFFBAF;
+    display: flex;
+    height: 50px;
+    position: relative;
+    top: 460px;
+    z-index: 500;
+    transition: opacity 0.3s linear;
+    border-radius: 25px;
+}
+
+.dropdown{
+    width: 100%;
+    display: flex;
+    padding-left: 15px;
+    font-size: 14px;
+    border-top-left-radius: 25px;
+    border-bottom-left-radius: 25px;
+    border: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    font-weight: 500;
+    background-color: transparent;
+    font-family: 'Comfortaa', cursive;
+    pointer-events: none;
+}
+
+.dropdown-content{
+    position:absolute;
+    display: none;
+    flex-direction: column;
+    top: 60px;
+    left: 0px;
+    background-color: #B0CD6B;
+    width: 125px;
+    justify-content: center;
+}
+
+.show{
+    display: flex;
+    animation: showDropdown 1s;
+}
+
+.dropdown-item{
+    border-bottom: 1px solid rgb(143, 143, 125);
+    padding: 10px 0;
+    background-color: #FFFBAF;
+    cursor: pointer;
+    height: 100%;
+}
+.dropdown-item:last-child{
+    border-bottom: none;
+}
+.dropdown-item:hover{
+    background: transparent;
+}
+
+.dropdown-box{
+    position: relative;
+    background-color: #E2EC7A;
+    display: flex;
+    border-top-left-radius: 25px;
+    border-bottom-left-radius: 25px;
+    width: 125px;
+    transition: 0.3s linear;
+    flex-direction: column;
+    justify-content: space-around;
+    cursor: pointer;
+}
+
+.dropdown-box:after{
+    content: "<>";
+    position: absolute;
+    -webkit-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    transform: rotate(90deg);
+    right: 10px;
+    top:15px;
+    z-index: 501;
+    font: 17px "Consolas", monospace;
+    pointer-events: none;
+    transition: 0.3s linear;
+}
+
+.dropdown:focus{
+    border: none;
+    outline: none;
+}
+
+.dropdown-box:hover{
+    background-color: #B0CD6B;
+}
+
+.dropdown-box:hover:after{
+    -webkit-transform: rotate(450deg);
+    -moz-transform: rotate(450deg);
+    -ms-transform: rotate(450deg);
+    transform: rotate(450deg);
+}
+
+.text-field{
+    width:375px;
+    background-color: transparent;
+    border: none;
+    padding: 0 10px;
+    font-size: 16px;
+    font-family: 'Comfortaa', cursive;
+    font-weight: 400;
+}
+
+.text-field:focus{
+    border: none;
+    outline: none;
+}
+
+.submit-btn{
+    width: 100px;
+    margin: 7px;
+    border-radius: 50px;
+    background-color: #4CAF50;
+    color: white;
+    font-size: 16px;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s linear;
+    font-family: 'Comfortaa', cursive;
+}
+
+.submit-btn:focus{
+    outline: none;
+    border: none;
+}
+
+.submit-btn:hover{
+    background-color: #293520;
+}
+
+@media only screen and (max-width: 600px){
+    .bar{
+        width: 450px;
+        margin-left: 75px;
+    }
+}
+
+@keyframes showDropdown{
+    from{
+        height: 50px;
+        opacity: 0.3;
+    }
+    to{
+        height: 99px;
+        opacity: 1
+    }
+}

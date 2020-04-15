@@ -1,0 +1,40 @@
+.result-container{
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
+    background-color: #5e9615;
+}
+
+.result-box{
+    background-color: #FFFBAF;
+    width: 1300px;
+    height: 800px;
+    border-radius: 20px;
+    margin: 0 auto;
+    margin-top: 100px;
+    animation-name: pop-out;
+    animation-duration: 1s;
+}
+
+
+/* @media only screen and (max-width: 1300px){
+    .result-box{
+        width: 800px
+    }
+} */
+
+@keyframes pop-out{
+    from{
+        width: 0px;
+        opacity: 0.6;
+    }
+
+    to{
+        width: 1300px;
+        opacity: 1;
+    }
+}

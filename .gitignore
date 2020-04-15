@@ -129,4 +129,4 @@ dmypy.json
 .pyre/
 
 #NPM
-.node_modules
+web/node_modules
