@@ -5,7 +5,7 @@ import pandas as pd
 # Database Object with Singleton Design Pattern
 class Database(object):
     __instance = None
-    __connection_string = "mongodb+srv://jason:jasondb@fyp-9p31t.mongodb.net/test?retryWrites=true&w=majority"
+    __connection_string = "connstring"
     __db = "fyp"
     __collection = "job_adverts"
     cluster = None
